@@ -10,18 +10,28 @@
 #define TSPlayerController_hpp
 
 #include "TSType.h"
-
-
+#include "TSDemux.hpp"
+#include <pthread.h>
+#include "TSErrorDefine.h"
+#include "TSSignal.hpp"
 
 class TSPlayerController {
 public:
-    TS_U32 OpenMedia(const TS_BUF pPath,
+    TSPlayerController();
+    TS_U32 OpenMedia(const char *pPath,
                 TS_PTR pVideoView = NULL,
                 TS_U32 nViewWidth = 0,
                 TS_U32 nViewHeight = 0
                 );
-public:
-    
+    TS_U32 Play(TS_U32 nStartPos = 0);
+
+private:
+    static void* ReadFrameThreadCallback(void *pArgs);
+private:
+    TSDemux *m_pDemux;
+    pthread_t m_readFrameThread;
+    TSPlayerStatus playerStatus;
+    TSSignal playSignal;
 };
 
 #endif /* TSPlayerController_hpp */

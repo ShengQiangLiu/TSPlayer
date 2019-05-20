@@ -10,10 +10,12 @@
 #define TSPlayer_hpp
 
 #include "TSType.h"
+#include "TSPlayerController.hpp"
 
 class TSPlayer {
 public:
-    TS_U32 Open(const TS_BUF pPath,
+    TSPlayer();
+    TS_U32 Open(const char *pPath,
                 TS_PTR pVideoView = NULL,
                 TS_U32 nViewWidth = 0,
                 TS_U32 nViewHeight = 0
@@ -26,6 +28,8 @@ public:
     
 public:
     
+private:
+    TSPlayerController *m_pPlayerCtrl;
 };
 
 #endif /* TSPlayer_hpp */

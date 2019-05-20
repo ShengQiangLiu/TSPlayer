@@ -41,7 +41,7 @@ void TSDemux::CloseMedia()
     avformat_free_context(m_mediaContext.pFormatCtx);
 }
 
-TSError TSDemux::OpenMedia(const TS_BUF pPath)
+TSError TSDemux::OpenMedia(const char *pPath)
 {
     AVDictionary *options = NULL;
     int ret = -1;
@@ -92,10 +92,10 @@ TS_U32 TSDemux::FindAudioStream()
     int audioIndex = av_find_best_stream(m_mediaContext.pFormatCtx, AVMEDIA_TYPE_AUDIO, -1, -1, NULL, 0);
     if (audioIndex>=0)
     {
-        AVCodecParameters *pCodecParam = m_mediaContext.pFormatCtx->streams[m_nAudioIndex]->codecpar;
+        AVCodecParameters *pCodecParam = m_mediaContext.pFormatCtx->streams[audioIndex]->codecpar;
         AVCodec *pCodec = avcodec_find_decoder(pCodecParam->codec_id);
         AVCodecContext *pAVCodecCtx = avcodec_alloc_context3(pCodec);
-        AVStream* pStream = m_mediaContext.pFormatCtx->streams[m_nAudioIndex];
+        AVStream* pStream = m_mediaContext.pFormatCtx->streams[audioIndex];
         avcodec_parameters_to_context(pAVCodecCtx, pCodecParam);
         // 将音频流的时间基分数转换为浮点数
         m_TimeBase = av_q2d(pStream->time_base);
@@ -116,11 +116,11 @@ TS_U32 TSDemux::FindVideoStream()
     int videoIndex = av_find_best_stream(m_mediaContext.pFormatCtx, AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
     if (videoIndex >= 0)
     {
-        AVCodecParameters *pCodecParam = m_mediaContext.pFormatCtx->streams[m_nVideoIndex]->codecpar;
+        AVCodecParameters *pCodecParam = m_mediaContext.pFormatCtx->streams[videoIndex]->codecpar;
         AVCodec *pCodec = avcodec_find_decoder(pCodecParam->codec_id);
         AVCodecContext *pAVCodecCtx = avcodec_alloc_context3(pCodec);
         pAVCodecCtx->thread_count = 8;
-        AVStream* pStream = m_mediaContext.pFormatCtx->streams[m_nVideoIndex];
+        AVStream* pStream = m_mediaContext.pFormatCtx->streams[videoIndex];
         avcodec_parameters_to_context(pAVCodecCtx, pCodecParam);
         if(m_TimeBase == 0)
         {

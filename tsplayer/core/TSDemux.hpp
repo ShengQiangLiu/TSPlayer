@@ -49,7 +49,7 @@ class TSDemux {
 public:
     TSDemux();
     ~TSDemux();
-    TSError OpenMedia(const TS_BUF pPath);
+    TSError OpenMedia(const char *pPath);
     void CloseMedia();
     TSError ReadPacket(AVPacket *pPacket);
 public:

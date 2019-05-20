@@ -8,13 +8,21 @@
 
 #include "TSPlayer.hpp"
 
-TS_U32 TSPlayer::Open(const TS_BUF pPath,
+
+TSPlayer::TSPlayer()
+{
+    m_pPlayerCtrl = new TSPlayerController();
+}
+
+
+TS_U32 TSPlayer::Open(const char *pPath,
                       TS_PTR pVideoView,
                       TS_U32 nViewWidth,
                       TS_U32 nViewHeight)
 {
     TS_U32 ret = -1;
     
+    ret = m_pPlayerCtrl->OpenMedia(pPath);
     
     return ret;
 }
@@ -30,8 +38,8 @@ TS_U32 TSPlayer::Close()
 TS_U32 TSPlayer::Play(TS_U32 nStartPos)
 {
     TS_U32 ret = -1;
-    
-    
+    ret = m_pPlayerCtrl->Play();
+
     return ret;
 }
 

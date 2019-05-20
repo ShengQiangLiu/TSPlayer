@@ -28,6 +28,17 @@ extern "C" {
 #define    TS_Err_Memory_Overflow        (TS_Err_Memory_Base|0x02)
 #define    TS_Err_Memory_NotAvailable    (TS_Err_Memory_Base|0x03)
     
+typedef enum
+{
+    TSPlayerStatus_Init = 0,
+    TSPlayerStatus_Opened,
+    TSPlayerStatus_Playing,
+    TSPlayerStatus_Seeking,
+    TSPlayerStatus_Paused,
+    TSPlayerStatus_Closed,
+}TSPlayerStatus;
+
+    
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
