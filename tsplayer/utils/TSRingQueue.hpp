@@ -10,7 +10,7 @@
 #define TSRingQueue_hpp
 
 #include "TSType.h"
-#include "TSError.h"
+#include "TSError.hpp"
 
 #define TS_RING_QUEUE_DFT_SIZE 512
 

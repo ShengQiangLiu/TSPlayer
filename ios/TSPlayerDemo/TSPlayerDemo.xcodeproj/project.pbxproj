@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		826F598622B68321001AB061 /* TSDecode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826F598422B68321001AB061 /* TSDecode.cpp */; };
 		82E9C566228C470600DC5A2B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E9C565228C470600DC5A2B /* AppDelegate.m */; };
 		82E9C569228C470600DC5A2B /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82E9C568228C470600DC5A2B /* ViewController.mm */; };
 		82E9C56C228C470600DC5A2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82E9C56A228C470600DC5A2B /* Main.storyboard */; };
@@ -36,6 +37,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		826F598222B5321A001AB061 /* TSVideoDataI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSVideoDataI.h; sourceTree = "<group>"; };
+		826F598322B5322E001AB061 /* TSAudioDataI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSAudioDataI.h; sourceTree = "<group>"; };
+		826F598422B68321001AB061 /* TSDecode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TSDecode.cpp; sourceTree = "<group>"; };
+		826F598522B68321001AB061 /* TSDecode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TSDecode.hpp; sourceTree = "<group>"; };
 		82E9C561228C470600DC5A2B /* TSPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TSPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82E9C564228C470600DC5A2B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		82E9C565228C470600DC5A2B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -465,6 +470,10 @@
 				82E9C5A822904C5600DC5A2B /* TSPlayerController.hpp */,
 				82E9C5A12290448A00DC5A2B /* TSDemux.cpp */,
 				82E9C5A22290448A00DC5A2B /* TSDemux.hpp */,
+				826F598422B68321001AB061 /* TSDecode.cpp */,
+				826F598522B68321001AB061 /* TSDecode.hpp */,
+				826F598222B5321A001AB061 /* TSVideoDataI.h */,
+				826F598322B5322E001AB061 /* TSAudioDataI.h */,
 			);
 			path = core;
 			sourceTree = "<group>";
@@ -568,6 +577,7 @@
 				82E9C59A228C594900DC5A2B /* TSMutex.cpp in Sources */,
 				82E9C5A32290448A00DC5A2B /* TSDemux.cpp in Sources */,
 				82E9C566228C470600DC5A2B /* AppDelegate.m in Sources */,
+				826F598622B68321001AB061 /* TSDecode.cpp in Sources */,
 				82E9C6A422905A1200DC5A2B /* TSError.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
