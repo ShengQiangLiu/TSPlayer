@@ -30,8 +30,13 @@ TS_U32 TSDecode::OpenDecoder(TSMediaContext* pMediaContext)
     int ret = -1;
 
     ret = OpenVideoDecoder(pMediaContext);
+    if (ret!=0) {
+        printf("Open video decode failed!\n");
+    }
     ret = OpenAudioDecoder(pMediaContext);
-    
+    if (ret!=0) {
+        printf("Open audio decode failed!\n");
+    }
     return ret;
 }
 
@@ -87,7 +92,8 @@ TS_U32 TSDecode::OpenVideoDecoder(TSMediaContext* pMediaContext)
     {
         return -1;
     }
-    if (avcodec_open2(m_pCodecCtx, pCodec, NULL) < 0)
+    ret = avcodec_open2(m_pCodecCtx, pCodec, NULL);
+    if (ret < 0)
     {
         return -1;
     }

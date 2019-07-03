@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		826F598622B68321001AB061 /* TSDecode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 826F598422B68321001AB061 /* TSDecode.cpp */; };
+		827E211E22C8F7B800E92844 /* TSUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 827E211C22C8F7B800E92844 /* TSUtil.cpp */; };
 		82E9C566228C470600DC5A2B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E9C565228C470600DC5A2B /* AppDelegate.m */; };
 		82E9C569228C470600DC5A2B /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82E9C568228C470600DC5A2B /* ViewController.mm */; };
 		82E9C56C228C470600DC5A2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82E9C56A228C470600DC5A2B /* Main.storyboard */; };
@@ -41,6 +42,8 @@
 		826F598322B5322E001AB061 /* TSAudioDataI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSAudioDataI.h; sourceTree = "<group>"; };
 		826F598422B68321001AB061 /* TSDecode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TSDecode.cpp; sourceTree = "<group>"; };
 		826F598522B68321001AB061 /* TSDecode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TSDecode.hpp; sourceTree = "<group>"; };
+		827E211C22C8F7B800E92844 /* TSUtil.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TSUtil.cpp; sourceTree = "<group>"; };
+		827E211D22C8F7B800E92844 /* TSUtil.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TSUtil.hpp; sourceTree = "<group>"; };
 		82E9C561228C470600DC5A2B /* TSPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TSPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82E9C564228C470600DC5A2B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		82E9C565228C470600DC5A2B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -489,6 +492,8 @@
 				82E9C59B228C5AF800DC5A2B /* TSSignal.cpp */,
 				82E9C59C228C5AF800DC5A2B /* TSSignal.hpp */,
 				82E9C593228C4A4F00DC5A2B /* TSType.h */,
+				827E211C22C8F7B800E92844 /* TSUtil.cpp */,
+				827E211D22C8F7B800E92844 /* TSUtil.hpp */,
 				82E9C597228C58BB00DC5A2B /* TSErrorDefine.h */,
 				82E9C6A222905A1200DC5A2B /* TSError.cpp */,
 				82E9C6A322905A1200DC5A2B /* TSError.hpp */,
@@ -576,6 +581,7 @@
 				82E9C574228C470C00DC5A2B /* main.m in Sources */,
 				82E9C59A228C594900DC5A2B /* TSMutex.cpp in Sources */,
 				82E9C5A32290448A00DC5A2B /* TSDemux.cpp in Sources */,
+				827E211E22C8F7B800E92844 /* TSUtil.cpp in Sources */,
 				82E9C566228C470600DC5A2B /* AppDelegate.m in Sources */,
 				826F598622B68321001AB061 /* TSDecode.cpp in Sources */,
 				82E9C6A422905A1200DC5A2B /* TSError.cpp in Sources */,

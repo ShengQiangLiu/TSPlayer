@@ -8,6 +8,7 @@
 
 #include "TSPlayerController.hpp"
 #include "TSError.hpp"
+#include "TSUtil.hpp"
 
 #define A_PACKET_QUEUE_MAX_SIZE 256
 #define V_PACKET_QUEUE_MAX_SIZE 512
@@ -22,8 +23,7 @@ TSPlayerController::TSPlayerController()
     m_pAudioPacketQueue = new TSRingQueue<AVPacket *>(A_PACKET_QUEUE_MAX_SIZE);
     m_pVideoFrameQueue = new TSRingQueue<AVFrame *>(V_PACKET_QUEUE_MAX_SIZE);
     
-    pthread_create(&m_readFrameThread, NULL, ReadFrameThreadCallback, this);
-    pthread_create(&m_decodePacketThread, NULL, DecodePacketThreadCallback, this);
+
 }
 
 TSPlayerController::~TSPlayerController()
@@ -43,7 +43,6 @@ TS_U32 TSPlayerController::OpenMedia(const char *pPath,
 {
     TS_U32 ret = -1;
     TSError err = m_pDemux->OpenMedia(pPath);
-    m_pDecode->OpenDecoder(&m_pDemux->m_mediaContext);
     playerStatus = TSPlayerStatus_Opened;
     
     return ret;
@@ -54,8 +53,12 @@ TS_U32 TSPlayerController::Play(TS_U32 nStartPos)
     TS_U32 ret = -1;
     
     playerStatus = TSPlayerStatus_Playing;
-    readSignal.Send();
-    decodeSignal.Send();
+//    readSignal.Send();
+//    decodeSignal.Send();
+//
+    m_pDecode->OpenDecoder(&m_pDemux->m_mediaContext);
+    pthread_create(&m_readFrameThread, NULL, ReadFrameThreadCallback, this);
+    pthread_create(&m_decodePacketThread, NULL, DecodePacketThreadCallback, this);
     
     return ret;
 }
@@ -63,73 +66,79 @@ TS_U32 TSPlayerController::Play(TS_U32 nStartPos)
 void* TSPlayerController::DecodePacketThreadCallback(void *pArgs)
 {
     if (NULL == pArgs) return NULL;
+    pthread_setname_np("DecodePacketThread");
+    
     TSPlayerController *playCtrl = (TSPlayerController *)pArgs;
-    AVFrame *videoFrame = av_frame_alloc();
-    while (1)
+    for (;;)
     {
         if (playCtrl->playerStatus != TSPlayerStatus_Playing)
         {
-            playCtrl->decodeSignal.Wait();
+//            playCtrl->decodeSignal.Wait();
         }
         int ret = -1;
         AVPacket *packet = NULL;
-        playCtrl->m_videoPacketQueueMutex.Lock();
-        playCtrl->m_pVideoPacketQueue->Pop(&packet);
-        playCtrl->m_videoPacketQueueMutex.UnLock();
+//        playCtrl->m_videoPacketQueueMutex.Lock();
+        playCtrl->m_pVideoPacketQueue->Pop(&packet, 0, 1);
+//        playCtrl->m_videoPacketQueueMutex.UnLock();
+        
         if (packet && packet->size>0)
         {
             ret = avcodec_send_packet(playCtrl->m_pDemux->m_mediaContext.pVideoCodecCtx, packet);
-
             do {
+                AVFrame *videoFrame = av_frame_alloc();
+
                 ret = avcodec_receive_frame(playCtrl->m_pDemux->m_mediaContext.pVideoCodecCtx, videoFrame);
                 if (ret == 0)
                 {
                     playCtrl->m_pVideoFrameQueue->Push(videoFrame);
-                    printf("Video Frame pts : %lld\n", videoFrame->pts);
+                    printf("Decode Video Frame pts : %lld\n", videoFrame->pts);
                 }
-                else
-                {
-                
-                    char msg[1024];
-                    av_strerror(ret, msg, 1024);
-                    printf("Decode Error : %s\n", msg);
-                }
-            } while (ret==0);
+                av_frame_free(&videoFrame);
+                videoFrame = NULL;
+            } while (ret != AVERROR(EAGAIN));
         }
-
+        else
+        {
+//            playCtrl->decodeSignal.Wait();
+//            printf("No packet!\n");
+        }
+        av_packet_free(&packet);
     }
-    av_frame_free(&videoFrame);
-    videoFrame = NULL;
-    
+
+    printf("DecodePacketThreadEnd!\n");
+
     return NULL;
 }
 
 void* TSPlayerController::ReadFrameThreadCallback(void *pArgs)
 {
     if (NULL == pArgs) return NULL;
+    pthread_setname_np("ReadFrameThread");
+
     TSPlayerController *playCtrl = (TSPlayerController *)pArgs;
     AVPacket *pPkt;
-    while (1)
+    for (;;)
     {
         if (playCtrl->playerStatus != TSPlayerStatus_Playing)
         {
-            playCtrl->readSignal.Wait();
+//            playCtrl->readSignal.Wait();
         }
         pPkt = av_packet_alloc();
         TSError error = playCtrl->m_pDemux->ReadPacket(pPkt);
         if (pPkt->stream_index == playCtrl->m_pDemux->m_mediaContext.nAudioIndex)
         {
 //            printf("Audio Packet pts : %lld\n", pPkt->pts);
-            playCtrl->m_audioPacketQueueMutex.Lock();
+//            playCtrl->m_audioPacketQueueMutex.Lock();
             playCtrl->m_pAudioPacketQueue->Push(pPkt);
-            playCtrl->m_audioPacketQueueMutex.UnLock();
+//            playCtrl->m_audioPacketQueueMutex.UnLock();
+            
         }
         else if (pPkt->stream_index == playCtrl->m_pDemux->m_mediaContext.nVideoIndex)
         {
-//            printf("Video Packet pts : %lld\n", pPkt->pts);
-            playCtrl->m_videoPacketQueueMutex.Lock();
+//            printf("Read Video Packet pts : %lld\n", pPkt->pts);
+//            playCtrl->m_videoPacketQueueMutex.Lock();
             playCtrl->m_pVideoPacketQueue->Push(pPkt);
-            playCtrl->m_videoPacketQueueMutex.UnLock();
+//            playCtrl->m_videoPacketQueueMutex.UnLock();
         }
         
         if (error.m_nCode != 0)
@@ -139,6 +148,7 @@ void* TSPlayerController::ReadFrameThreadCallback(void *pArgs)
         }
         else
         {
+//            playCtrl->decodeSignal.Send();
 //            av_packet_free(&pPkt);
         }
 //        printf("VideoPacketCount: %d", playCtrl->m_pVideoPacketQueue->Count());

@@ -22,7 +22,8 @@ extern "C" {
 #define    TS_Err_ContainerFull          0x00000006
 #define    TS_Err_ContainerEmpty         0x00000007
 #define    TS_Err_DataAlreadyExist       0x00000008
-    
+#define    TS_Err_QueueQuit              0x00000009
+
 #define    TS_Err_Memory_Base            0x0000F000
 #define    TS_Err_Memory_Low             (TS_Err_Memory_Base|0x01)
 #define    TS_Err_Memory_Overflow        (TS_Err_Memory_Base|0x02)

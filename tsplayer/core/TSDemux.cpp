@@ -16,9 +16,8 @@ TSDemux::TSDemux()
 m_nAudioIndex(-1),
 m_nVideoIndex(-1)
 {
-
-    av_register_all();
     avformat_network_init();
+    av_register_all();
     printf("%s", av_version_info());
 }
 
@@ -171,6 +170,7 @@ TSError TSDemux::ReadPacket(AVPacket *pPacket)
             }
             else if (ret == AVERROR_EOF)
             {
+                av_log(NULL, AV_LOG_INFO, "End of file.\n");
                 return TSError(ret);
             }
             else
